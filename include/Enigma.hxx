@@ -56,6 +56,8 @@ class Enigma
         void set_key(const std::string);
         void rewire_plugboard(const char, const char);
         void reset(){_init();}
+        const std::string getType() const {return _enigma_type;}
+        const std::vector<std::string> getRotorLabels() const {return _rotor_labels;}
 };
 
 #endif

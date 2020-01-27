@@ -9,10 +9,10 @@ set( BOOST $ENV{BOOSTINCLUDE} )
 set( CMAKE_GENERATOR ${CXX_LOC})
 set( SRCFILES src/Reflector.cxx src/Rotor.cxx src/Enigma.cxx )
 
-project(enigmaM3_test)
+project(enigma_app)
 
 add_subdirectory(logging)
-add_executable(${PROJECT_NAME} ${SRCFILES} enigmaM3_test.cxx)
+add_executable(${PROJECT_NAME} ${SRCFILES} enigma_app.cxx)
 target_link_libraries(${PROJECT_NAME} ${LIBS} )
 add_library( logging STATIC IMPORTED )
 set_target_properties(logging PROPERTIES IMPORTED_LOCATION ${PROJECT_SOURCE_DIR}/logging/build/libLogger.a)
