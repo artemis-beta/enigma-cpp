@@ -2,6 +2,8 @@
 #define __REFLECTOR_HXX__
 
 #include <map>
+#include <string>
+#include <iostream>
 
 class Reflector
 {
@@ -11,7 +13,7 @@ class Reflector
     public:
         Reflector(const char name, const std::map<char, char> ref_dict) : 
             _name(name), _reflector_dict(ref_dict) {}
-        const char reflector_conversion(const char letter) const {return _reflector_dict[letter];}
+        const char reflector_conversion(const char& letter) {return _reflector_dict[letter];}
 };
 
 class Reflector_B : public Reflector
@@ -44,21 +46,6 @@ class Reflector_C : public Reflector
 			{'I', 'P'}, {'J', 'X'}}) {}
 };
 
-Reflector* Reflectors(const char type)
-{
-	if(type != 'B' || type != 'C')
-	{
-		throw std::invalid_argument("Could not find Reflector of type '"+std::to_string(type)+"'");
-	}
-
-	if(type == 'B')
-	{
-		return new Reflector_B;
-	}
-	else
-	{
-		return new Reflector_C;
-	}
-}
+extern Reflector* Reflectors(const char type);
 
 #endif

@@ -6,6 +6,7 @@
 #include <map>
 #include <stdexcept>
 #include <string>
+#include <iostream>
 
 class Rotor
 {
@@ -21,7 +22,7 @@ class Rotor
         std::map<int,int> _wiring;
     public:
         Rotor(const std::string name, const std::vector<char> notches, std::map<int, int> wiring) : 
-            _notches(notches), _name(name) {}
+            _notches(notches), _name(name), _wiring(wiring) {}
         void rotate_rotor(Rotor* other=nullptr);
         void rotate_inner_ring();
         const int get_output_terminal(const char letter);
@@ -155,41 +156,6 @@ class Rotor_8 : public Rotor
 				{24, 6}, {25, 21}}) {}
 };
 
-Rotor* Rotors(const int rotor_type)
-{
-    if(rotor_type > 8 || rotor_type < 1)
-    {
-        throw std::invalid_argument("Could not find Rotor of type '"+std::to_string(rotor_type)+"'");
-    }
-    Rotor* _temp;
-    switch(rotor_type)
-    {
-        case 2:
-            _temp = new Rotor_2();
-            break;
-        case 3:
-            _temp = new Rotor_3();
-            break;
-        case 4:
-            _temp = new Rotor_4();
-            break;
-        case 5:
-            _temp = new Rotor_4();
-            break;
-        case 6:
-            _temp = new Rotor_4();
-            break;
-        case 7:
-            _temp = new Rotor_4();
-            break;
-        case 8:
-            _temp = new Rotor_4();
-            break;
-        default:
-            _temp = new Rotor_1();
-    }
-
-    return _temp;
-}
+extern Rotor* Rotors(const int rotor_type);
 
 #endif

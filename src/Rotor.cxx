@@ -51,7 +51,7 @@ const int Rotor::get_input_terminal(const char letter)
 		}
 	}
 
-	throw std::invalid_argument("Could not find Input terminal for letter '"+std::to_string(letter)+"'");
+	throw std::invalid_argument("Could not find Input terminal for letter '"+std::string(1, letter)+"'");
 }
 
 const char Rotor::get_rotor_conversion(const char letter)
@@ -73,6 +73,41 @@ const char Rotor::get_rotor_conversion_inv(const char letter)
 		}
 	}
 
-	throw std::invalid_argument("Could not find the inverse of character '"+std::to_string(letter)+"'");
+	throw std::invalid_argument("Could not find the inverse of character '"+std::string(1, letter)+"'");
 }
+extern Rotor* Rotors(const int rotor_type)
+{
+    if(rotor_type > 8 || rotor_type < 1)
+    {
+        throw std::invalid_argument("Could not find Rotor of type '"+std::string(1, rotor_type)+"'");
+    }
+    Rotor* _temp;
+    switch(rotor_type)
+    {
+        case 2:
+            _temp = new Rotor_2();
+            break;
+        case 3:
+            _temp = new Rotor_3();
+            break;
+        case 4:
+            _temp = new Rotor_4();
+            break;
+        case 5:
+            _temp = new Rotor_4();
+            break;
+        case 6:
+            _temp = new Rotor_4();
+            break;
+        case 7:
+            _temp = new Rotor_4();
+            break;
+        case 8:
+            _temp = new Rotor_4();
+            break;
+        default:
+            _temp = new Rotor_1();
+    }
 
+    return _temp;
+}

@@ -32,7 +32,7 @@ class Plugboard
                 }
             }
 
-            throw std::invalid_argument("Could find inverse conversion of character '"+std::to_string(letter)+"'");
+            throw std::invalid_argument("Could find inverse conversion of character '"+std::string(1, letter)+"'");
         }
 
         void swap_letter_wiring(const char letter_1, const char letter_2)

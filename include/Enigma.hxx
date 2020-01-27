@@ -16,8 +16,11 @@
 #include "Reflector.hxx"
 #include "Logger.hxx"
 
-const std::string version = "v1.2.0";
-const bool isBeta = true;
+namespace EnigmaInfo
+{
+    const std::string version = "v1.2.0";
+    const bool isBeta = true;
+};
 
 class Enigma
 {
@@ -27,7 +30,7 @@ class Enigma
         const std::vector<int> _rotor_ids;
         std::map<std::string, Rotor*> _rotors;
         const char _reflector_type;
-        const Reflector* _reflector;
+        Reflector* _reflector;
         Plugboard* _plugboard = new Plugboard;
         void _init();
         void _move_rotor(const std::string, const int);
@@ -42,7 +45,7 @@ class Enigma
     public:
         Enigma(const std::vector<int> rotor_list={5,3,1}, const char reflector='B', const std::string enigma_type="M3", const bool debug=false) :
             _rotor_ids(rotor_list), _reflector_type(reflector), _enigma_type(enigma_type), 
-            _logger(Logger("ENIGMA"+enigma_type)), _debug(debug), _reflector(Reflectors(reflector))
+            _logger(Logger("ENIGMA "+enigma_type)), _debug(debug), _reflector(Reflectors(reflector))
         {
             _init();
         }

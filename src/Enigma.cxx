@@ -20,11 +20,12 @@ void Enigma::_init()
             _logger.Error("Three rotor types only must be provided for Enigma machine 'M3'");
             exit(EXIT_FAILURE);
         }
-        
-        std::vector<const int>::iterator it;
-        it = std::unique(_rotor_ids.begin(), _rotor_ids.end());
 
-        if(std::distance(_rotor_ids.begin(), it) != 3)
+        std::vector<int> _temp = _rotor_ids;
+        
+        const std::vector<int>::iterator it = std::unique(_temp.begin(), _temp.end());
+
+        if(std::distance(_temp.begin(), it) != 3)
         {
             _logger.Error("All chosen rotor IDs must be unique");
             exit(EXIT_FAILURE);
@@ -45,10 +46,10 @@ void Enigma::_init()
 
         _rotor_labels = {"left", "middle left", "middle right", "right"};
         
-        std::vector<const int>::iterator it;
-        it = std::unique(_rotor_ids.begin(), _rotor_ids.end());
+        std::vector<int> _temp = _rotor_ids;
+        const std::vector<int>::iterator it = std::unique(_temp.begin(), _temp.end());
 
-        if(std::distance(_rotor_ids.begin(), it) != 4)
+        if(std::distance(_temp.begin(), it) != 4)
         {
             _logger.Error("All chosen rotor IDs must be unique");
             exit(EXIT_FAILURE);
@@ -68,9 +69,9 @@ void Enigma::_init()
 
 void Enigma::_move_rotor(const std::string rotor, const int amount)
 {
+    _logger.Debug("Rotating rotor %1% by %2%", rotor, std::to_string(amount));
     for(unsigned int i{0}; i < amount; ++i)
     {
-        _logger.Debug("Rotating rotor %1% by %2%", rotor, std::to_string(amount));
         _rotors[rotor]->rotate_rotor();
     }
 }
@@ -81,18 +82,18 @@ void Enigma::ringstellung(const std::string name, const int amount)
     {
         char letter = 'A';
         _logger.Debug("Ringstellung: Conversion for rotor %1% was %2% to %3%", 
-                    name, std::to_string(letter), 
-                    std::to_string(_rotors[name]->get_rotor_conversion(letter)));
+                    name, std::string(1, letter), 
+                    std::string(1, _rotors[name]->get_rotor_conversion(letter)));
         _rotors[name]->rotate_inner_ring();
         _logger.Debug("Ringstellung: Conversion for rotor %1% now %2% to %3%", 
-                    name, std::to_string(letter), 
-                    std::to_string(_rotors[name]->get_rotor_conversion(letter)));
+                    name, std::string(1, letter), 
+                    std::string(1, _rotors[name]->get_rotor_conversion(letter)));
     }
 }
 
 void Enigma::_set_rotor(const std::string name, const char letter)
 {
-    _logger.Debug("Setting rotor %1% to %2%", name, std::to_string(letter));
+    _logger.Debug("Setting rotor %1% to %2%", name, std::string(1, letter));
     
     while(_rotors[name]->get_face_letter() != letter)
     {
@@ -102,17 +103,17 @@ void Enigma::_set_rotor(const std::string name, const char letter)
 
 const char Enigma::_get_rotor_conv(const std::string name, const char letter)
 {
-    const char converted_letter = _rotors[name]->get_rotor_conversion(letter))
-    _logger.Debug("Rotor %1% conversion: %2% to %3%", name, std::to_string(letter),
-                    std::to_string(converted_letter));
+    const char converted_letter = _rotors[name]->get_rotor_conversion(letter);
+    _logger.Debug("Rotor %1% conversion: %2% to %3%", name, std::string(1, letter),
+                    std::string(1, converted_letter));
     return converted_letter;
 }
 
 const char Enigma::_get_rotor_conv_inv(const std::string name, const char letter)
 {
     const char converted_letter = _rotors[name]->get_rotor_conversion_inv(letter);
-    _logger.Debug("Rotor %1% conversion: %2% to %3%", name, std::to_string(letter),
-                    std::to_string(converted_letter));
+    _logger.Debug("Rotor %1% conversion: %2% to %3%", name, std::string(1, letter),
+                    std::string(1, converted_letter));
     return converted_letter;
 }
 
@@ -143,8 +144,8 @@ const char Enigma::_get_inter_rotor_conv(const std::string name_1,
     const char output = _rotors[name_2]->get_letters_dict()[n];
 
     _logger.Debug("Rotor %1% rotor to %2% rotor conversion: %3% to %4%",
-                    name_1, name_2, std::to_string(letter),
-                    std::to_string(output));
+                    name_1, name_2, std::string(1, letter),
+                    std::string(1, output));
 
     return output;
 }
@@ -158,22 +159,30 @@ const char Enigma::_get_inter_rotor_conv_inv(const std::string name_1,
 
 const char Enigma::type_letter(const char letter)
 {
-    const char letter  = std::toupper(letter);
+    const char l  = std::toupper(letter);
     _logger.Debug("-----------------------");
-    char cipher = _plugboard->plugboard_conversion(letter);
-    _logger.Debug("Plugboard conversion: %1% to %2%", std::to_string(letter), std::to_string(cipher));
+    char cipher = _plugboard->plugboard_conversion(l);
+    _logger.Debug("Plugboard conversion: %1% to %2%", std::string(1, l), std::string(1, cipher));
     // Move the rightmost rotor
+    
     _move_rotor(_rotor_labels[_rotor_labels.size()-1], 1);
-
+    
     std::vector<std::string> reversed = _rotor_labels;
+    
     std::vector<std::string> reversed_1 = _rotor_labels;
+    
     reversed_1.erase(reversed_1.begin());
+    
     std::vector<std::string> reversed_2 = _rotor_labels;
-    reversed_2.erase(reversed_2.end());
+    
+    reversed_2.pop_back();
+    
     std::reverse(reversed.begin(), reversed.end());
+    
     std::reverse(reversed_1.begin(), reversed_1.end());
+    
     std::reverse(reversed_2.begin(), reversed_2.end());
-
+    
     for(unsigned int i{0}; i < reversed_1.size(); ++i)
     {
         const std::string rev_1_element = reversed_1[i];
@@ -217,7 +226,7 @@ const char Enigma::type_letter(const char letter)
     }
 
     const char cipher_out = _plugboard->plugboard_conversion_inv(cipher);
-    _logger.Debug("Plugboard conversion: %1% to %2%", std::to_string(cipher), std::to_string(cipher_out));
+    _logger.Debug("Plugboard conversion: %1% to %2%", std::string(1, cipher), std::string(1, cipher_out));
     _logger.Debug("-----------------------");
 
     return cipher_out;
@@ -226,7 +235,7 @@ const char Enigma::type_letter(const char letter)
 const char Enigma::_get_reflector_conv(const char letter)
 {
     const char out = _reflector->reflector_conversion(letter);
-    _logger.Debug("Reflector conversion: %1% to %2%", std::to_string(letter), std::to_string(out));
+    _logger.Debug("Reflector conversion: %1% to %2%", std::string(1, letter), std::string(1, out));
     return out;
 }
 
@@ -238,22 +247,24 @@ const std::string Enigma::type_phrase(const std::string phrase)
     for(unsigned int i{0}; i < remainder; ++i)
     {
         _temp += _rotors[_rotor_labels[0]]->get_letters_dict()[rand() % 26];
-
     }
 
     std::string out_str = "";
 
-    for(char letter : phrase)
+    for( unsigned int i{0}; i < _temp.size(); ++i )
     {
-        out_str += std::to_string((letter));
+        out_str += std::string(1, type_letter(_temp[i]));
+        if((i+1) % 5 == 0) out_str += " ";
     }
 
     return out_str;
     
 }
 
-void Enigma::set_key(const std::string key)
+void Enigma::set_key(const std::string user_key)
 {
+    std::string key = user_key;
+
     if(_rotor_labels.size() != key.size())
     {
         throw std::invalid_argument("Key length must match no. of rotors.");
