@@ -7,7 +7,7 @@ Enigma uses the [Boost C++ library](https://www.boost.org/users/history/version_
 
 ## Beta Testing
 
-Currently the repository is in beta. You can test out the M3 version of the machine by installing it using the included `install` script which should be run within the repository directory.
+Currently the repository is in beta. You can use the included Enigma app by building it using the `install` script.
 
 The script takes one optional argument which sets the required `$BOOSTINCLUDE` environment variable. This should point to the location of `boost/include/boost`
 
@@ -15,6 +15,6 @@ The script takes one optional argument which sets the required `$BOOSTINCLUDE` e
 $ ./install --boost-libs <boost-include>
 ```
 
-the script should retrieve also the required [Logging](https://github.com/artemis-beta/cpp-logger) library for the logger. The resultant executable can then be found as `enigmaM3_test` within the newly created `bin` directory.
+the script should retrieve also the required [Logging](https://github.com/artemis-beta/cpp-logger) library for the logger. The resultant executable can then be found as `enigma_app` within the newly created `bin` directory.
 
-Running the app will load in prechosen settings, the user can then enter a phrase to be encoded. Entering the encoded phrase should then return the original result.
+Running the app will allow the user to specify settings such as the key, the rotor type choice (unique numbers from 1-8), and rotating the internal wiring within each rotor (Ringstellung). The user enters then enters their input next to the `INPUT: ` prompt. The machine can be reset at any point to the start settings for decoding using the `reset` command within the app. Quit the application using the `quit` command.
