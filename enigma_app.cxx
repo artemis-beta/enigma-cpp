@@ -33,7 +33,7 @@ int main(int argc, char** argv)
     }
 
     std::string intro = "===========================================\n\n"
-    "  WELCOME TO THE ENIGMA 3 ENCODER\n"
+    "  WELCOME TO THE ENIGMA ENCODER\n"
     "                  "+eg_version;
     intro += "\n           Kristian Zarebski\n\n"
     "===========================================\n"
@@ -66,7 +66,7 @@ int main(int argc, char** argv)
 
     if(choice == "Y")
     {
-        std::cout << "Enter 3/4 character key: ";
+        std::cout << "Enter 3/4 character key for M3 or M4 machine: ";
         std::cin >> key;
         std::cout << std::endl;
 
