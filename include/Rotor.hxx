@@ -15,13 +15,12 @@ class Rotor
                                                 'M', 'N', 'O', 'P', 'Q', 'R',
                                                 'S', 'T', 'U', 'V', 'W', 'X',
                                                 'Y', 'Z'};
-        const std::vector<int> _notches;
+        const std::vector<char> _notches;
         char _face = 'A';
         const std::string _name;
         std::map<int,int> _wiring;
-        const int alpha_index(const char letter);
     public:
-        Rotor(const std::string name, const std::vector<int> notches, std::map<int, int> wiring) : 
+        Rotor(const std::string name, const std::vector<char> notches, std::map<int, int> wiring) : 
             _notches(notches), _name(name) {}
         void rotate_rotor(Rotor* other=nullptr);
         void rotate_inner_ring();
@@ -29,6 +28,10 @@ class Rotor
         const int get_input_terminal(const char letter);
         const char get_rotor_conversion(const char letter);
         const char get_rotor_conversion_inv(const char letter);
+		const char get_face_letter(){return _face;}
+		const std::vector<char> get_notches(){return _notches;}
+		const std::array<const char, 26> get_letters_dict(){return _alpha;}
+		const int alpha_index(const char letter);
 };
 
 class Rotor_1 : public Rotor
@@ -151,5 +154,42 @@ class Rotor_8 : public Rotor
 				{21, 8}, {22, 20}, {23, 24},
 				{24, 6}, {25, 21}}) {}
 };
+
+Rotor* Rotors(const int rotor_type)
+{
+    if(rotor_type > 8 || rotor_type < 1)
+    {
+        throw std::invalid_argument("Could not find Rotor of type '"+std::to_string(rotor_type)+"'");
+    }
+    Rotor* _temp;
+    switch(rotor_type)
+    {
+        case 2:
+            _temp = new Rotor_2();
+            break;
+        case 3:
+            _temp = new Rotor_3();
+            break;
+        case 4:
+            _temp = new Rotor_4();
+            break;
+        case 5:
+            _temp = new Rotor_4();
+            break;
+        case 6:
+            _temp = new Rotor_4();
+            break;
+        case 7:
+            _temp = new Rotor_4();
+            break;
+        case 8:
+            _temp = new Rotor_4();
+            break;
+        default:
+            _temp = new Rotor_1();
+    }
+
+    return _temp;
+}
 
 #endif
