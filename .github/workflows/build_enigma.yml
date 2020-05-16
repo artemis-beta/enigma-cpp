@@ -1,0 +1,65 @@
+name: Enigma
+
+on: [push]
+
+jobs:
+    build_macOS:
+        runs-on: macos-latest
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Install Brew
+              run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+
+            - name: Install Boost
+              run: brew install boost
+
+            - name: Checkout Logging submodule
+              run: git submodule update --init --recursive
+            
+            - name: Compile
+              run: |
+                mkdir build
+                cd build
+                cmake ..
+                make
+            
+            - name: Run Unit Tests
+              run: ./tests/bin/Enigma-unit_tests
+                if [ $? -eq 0 ]; then
+                    echo "Unit tests completed successfully"
+                exit 0
+                else
+                    echo "Unit tests failed"
+                    exit 1
+                fi
+                
+    build_Ubuntu:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Install Boost
+              run: sudo apt-get install libboost-all-dev -y
+
+            - name: Checkout Logging submodule
+              uses: srt32/git-actions@v0.0.3
+              with:
+                args: git submodule update --init --recursive
+            
+            - name: Compile
+              run: |
+                mkdir build
+                cd build
+                cmake ..
+                make
+            
+            - name: Run Unit Tests
+              run: ./tests/bin/Enigma-unit_tests
+                if [ $? -eq 0 ]; then
+                    echo "Unit tests completed successfully"
+                exit 0
+                else
+                    echo "Unit tests failed"
+                    exit 1
+                fi
