@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <string>
 #include <iostream>
+#include <algorithm>
 
 class Rotor
 {
