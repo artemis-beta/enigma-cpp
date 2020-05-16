@@ -25,7 +25,8 @@ jobs:
                 make
             
             - name: Run Unit Tests
-              run: ./tests/bin/Enigma-unit_tests
+              run: |
+                ./tests/bin/Enigma-unit_tests
                 if [ $? -eq 0 ]; then
                     echo "Unit tests completed successfully"
                 exit 0
@@ -55,7 +56,8 @@ jobs:
                 make
             
             - name: Run Unit Tests
-              run: ./tests/bin/Enigma-unit_tests
+              run: |
+                ./tests/bin/Enigma-unit_tests
                 if [ $? -eq 0 ]; then
                     echo "Unit tests completed successfully"
                 exit 0
