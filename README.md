@@ -7,15 +7,15 @@ Enigma uses the [Boost C++ library](https://www.boost.org/users/history/version_
 
 ## App
 
-Currently the repository is in beta. You can use the included Enigma app by building it using the `install` script.
-
-The script takes one optional argument which sets the required `$BOOSTINCLUDE` environment variable. This should point to the location of `boost/include/boost`
+Included within this package is a demo application which provides a terminal based user interface. The application is built with `CMake>=3.10`:
 
 ```
-$ ./install --boost-libs <boost-include>
+mkdir build
+cd build
+cmake ..
+cd ..
+./bin/enigma_app
 ```
-
-the script should retrieve also the required [Logging](https://github.com/artemis-beta/cpp-logger) library for the logger. The resultant executable can then be found as `enigma_app` within the newly created `bin` directory.
 
 Running the app will allow the user to specify settings such as the key, the rotor type choice (unique numbers from 1-8), and rotating the internal wiring within each rotor (Ringstellung). The user enters then enters their input next to the `INPUT: ` prompt. The machine can be reset at any point to the start settings for decoding using the `reset` command within the app. Quit the application using the `quit` command.
 
