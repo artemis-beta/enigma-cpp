@@ -11,6 +11,7 @@ find_package( Boost REQUIRED )
 
 add_executable( ${PROJECT_NAME} ${SRCFILES} enigma_app.cxx )
 
+add_subdirectory( tests )
 add_subdirectory( logging )
 target_link_libraries( ${PROJECT_NAME} PUBLIC Logger )
 target_link_libraries( ${PROJECT_NAME} ${Boost_LIBRARIES} ${LIBS} )

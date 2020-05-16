@@ -17,12 +17,12 @@ class Plugboard
 				{'V', 'H'}, {'W', 'O'}, {'X', 'J'},
 				{'Y', 'E'}, {'Z', 'A'}};
     public:
-        const char plugboard_conversion(const char letter)
+        char plugboard_conversion(const char letter)
         {
             return _plug_board_dict[letter];
         }
 
-        const char plugboard_conversion_inv(const char letter)
+        char plugboard_conversion_inv(const char letter)
         {
             for(auto key : _plug_board_dict)
             {
