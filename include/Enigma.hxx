@@ -47,7 +47,6 @@ class _enigma_impl
         const char _get_rotor_conv(const std::string, const char);
         const char _get_rotor_conv_inv(const std::string, const char);
         const char _get_inter_rotor_conv(const std::string, const std::string, const char);
-        const char _get_inter_rotor_conv_inv(const std::string, const std::string, const char);
         const char _get_reflector_conv(const char);
         Logger _logger;
         bool _debug = false;

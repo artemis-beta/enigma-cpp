@@ -130,7 +130,7 @@ const char _enigma_impl::_get_inter_rotor_conv(const std::string name_1,
 
     int n = 0;
 
-    if(interval > 0)
+    if(zero_point_2 > zero_point_1)
     {
         const std::vector<int> i = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
                                     14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25};
@@ -150,13 +150,6 @@ const char _enigma_impl::_get_inter_rotor_conv(const std::string name_1,
                     std::string(1, output));
 
     return output;
-}
-
-const char _enigma_impl::_get_inter_rotor_conv_inv(const std::string name_1,
-                                             const std::string name_2,
-                                             const char letter)
-{
-    return _get_inter_rotor_conv(name_1, name_2, letter);
 }
 
 const char Enigma::type_letter(const char letter)
@@ -228,7 +221,7 @@ const char Enigma::type_letter(const char letter)
 
         const std::string adjacent_rotor= rotor_labels[adjacent_rotor_index];
 
-        cipher = _impl->_get_inter_rotor_conv_inv(key, adjacent_rotor, cipher);
+        cipher = _impl->_get_inter_rotor_conv(key, adjacent_rotor, cipher);
     }
 
     const char cipher_out = plug_board->plugboard_conversion_inv(cipher);
