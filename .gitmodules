@@ -1,0 +1,4 @@
+[submodule "logging"]
+	path = logging
+	url = https://github.com/artemis-beta/cpp-logger.git
+	branch = master
