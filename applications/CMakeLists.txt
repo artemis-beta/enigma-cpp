@@ -1,0 +1,6 @@
+project( enigma_app )
+set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin )
+add_executable( ${PROJECT_NAME} enigma_app.cxx )
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/include)
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/logging)
+target_link_libraries( ${PROJECT_NAME} PUBLIC Enigma )
