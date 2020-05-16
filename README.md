@@ -14,7 +14,7 @@ mkdir build
 cd build
 cmake ..
 cd ..
-./bin/enigma_app
+./applications/bin/enigma_app
 ```
 
 Running the app will allow the user to specify settings such as the key, the rotor type choice (unique numbers from 1-8), and rotating the internal wiring within each rotor (Ringstellung). The user enters then enters their input next to the `INPUT: ` prompt. The machine can be reset at any point to the start settings for decoding using the `reset` command within the app. Quit the application using the `quit` command.
@@ -55,3 +55,9 @@ int main(int argc, char** argv)
     return 0;
 }
 ```
+
+## Unit Tests
+
+For testing Enigma during the development Google Test has been included within the build procedure when running CMake, to launch the included unit tests run the executable within the `tests` folder:
+
+`./tests/bin/Enigma-unit_tests`
