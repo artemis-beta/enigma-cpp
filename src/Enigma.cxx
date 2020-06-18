@@ -206,7 +206,6 @@ const char Enigma::type_letter(const char letter)
         const std::string adjacent_rotor= rotor_labels[adjacent_rotor_index];
 
         cipher = _impl->_get_inter_rotor_conv(key, adjacent_rotor, cipher);
-
     }
 
     cipher = _impl->_get_reflector_conv(cipher);
@@ -258,8 +257,7 @@ const std::string Enigma::type_phrase(const std::string phrase)
         if((i+1) % 5 == 0) out_str += " ";
     }
 
-    return out_str;
-    
+    return out_str;   
 }
 
 void Enigma::set_key(const std::string user_key)
@@ -279,7 +277,6 @@ void Enigma::set_key(const std::string user_key)
     {
         _impl->_set_rotor(rotor_labels[i], key[i]);
     }
-
 }
 
 void Enigma::rewire_plugboard(const char letter_1, const char letter_2)
