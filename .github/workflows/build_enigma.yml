@@ -41,7 +41,7 @@ jobs:
             - uses: actions/checkout@v2
 
             - name: Install Boost
-              run: sudo apt-get install libboost-all-dev -y
+              run: sudo apt-get install libboost-all-dev lcov -y
 
             - name: Checkout Logging submodule
               uses: srt32/git-actions@v0.0.3
@@ -65,3 +65,9 @@ jobs:
                     echo "Unit tests failed"
                     exit 1
                 fi
+
+            - name: Run Coverage
+              run: |
+                make coverage
+                bash <(curl -s https://codecov.io/bash) -f build/Enigma.info || echo "Codecov did not collect coverage reports"
+              continue-on-error: true # Do not want failed coverage to mean failed build!
