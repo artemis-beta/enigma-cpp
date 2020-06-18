@@ -16,7 +16,7 @@ jobs:
             },
             {
               compiler: clang,
-              compiler: clang++
+              compilerpp: clang++
             }]
         steps:
             - uses: actions/checkout@v2
