@@ -9,29 +9,30 @@ set( SRCFILES src/Reflector.cxx src/Rotor.cxx src/Enigma.cxx )
 
 option(CODE_COVERAGE "Enable Coverage" OFF)
 
+if(CODE_COVERAGE)
+message(STATUS "Including Code Coverage")
+set(COVERAGE_COMPILER_FLAGS "-g -fprofile-arcs -ftest-coverage")
+set (CMAKE_CXX_FLAGS "-Wall -Wextra ${COVERAGE_COMPILER_FLAGS} ${CMAKE_CXX_FLAGS}")
+endif()
+
 find_package( Boost REQUIRED )
 
 add_library(${PROJECT_NAME} ${SRCFILES})
-
-add_subdirectory( tests )
-add_subdirectory( logging )
-add_subdirectory( applications )
-
 target_link_libraries( ${PROJECT_NAME} PUBLIC Logger )
 target_link_libraries( ${PROJECT_NAME} ${Boost_LIBRARIES} ${LIBS} )
 target_include_directories( ${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/include
                             ${PROJECT_NAME} PUBLIC ${Boost_INCLUDE_DIRS}
                             ${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/logging )
 
-if(CODE_COVERAGE)
-message(STATUS "Including Code Coverage")
-set(COVERAGE_COMPILER_FLAGS "-g -fprofile-arcs -ftest-coverage")
-set (CMAKE_CXX_FLAGS "-std=gnu++11 -Wall -Wextra ${COVERAGE_COMPILER_FLAGS} ${CMAKE_CXX_FLAGS}")
+add_subdirectory( tests )
+add_subdirectory( logging )
+add_subdirectory( applications )
 
 find_program( LCOV_PATH  NAMES lcov lcov.bat lcov.exe lcov.perl)
 find_program( GENHTML_PATH NAMES genhtml genhtml.perl genhtml.bat )
 find_program( GCOV_PATH gcov )
 
+if(CODE_COVERAGE)
 set(LCOV_EXCLUDES "build/*" "/usr*" "tests/*")
 
     add_custom_target(coverage
