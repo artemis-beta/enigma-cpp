@@ -59,7 +59,8 @@ jobs:
                 
             - name: Run Coverage (Ubuntu GCC)
               run: |
+                cd build
                 make coverage
-                bash <(curl -s https://codecov.io/bash) -f build/Enigma.info || echo "Codecov did not collect coverage reports"
+                bash <(curl -s https://codecov.io/bash) -f Enigma.info || echo "Codecov did not collect coverage reports"
               continue-on-error: true # Do not want failed coverage to mean failed build!
               if: matrix.os == 'ubuntu-latest' && matrix.config.compiler == 'clang'
