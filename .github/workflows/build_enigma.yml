@@ -3,16 +3,34 @@ name: Enigma
 on: [push]
 
 jobs:
-    build_macOS:
-        runs-on: macos-latest
+    build: ${{ matrix.os }} ${{ matrix.config.compiler }}
+        runs-on: ${{ matrix.os }}
+        strategy:
+          fail-fast: false
+          matrix:
+            os:  ['ubuntu-latest', 'macos-latest']
+            config: [{
+              compiler: gcc,
+              compilerpp:  g++
+            },
+            {
+              compiler: clang,
+              compiler: clang++
+            }]
         steps:
             - uses: actions/checkout@v2
 
-            - name: Install Brew
+            - name: Install Brew (macOS)
               run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+              if: matrix.os == 'macos-latest'
 
-            - name: Install Boost
+            - name: Install Boost (macOS)
               run: brew install boost
+              if: matrix.os == 'macos-latest'
+            
+            - name: Install Boost and LCov (Ubuntu)
+              run: sudo apt upgrade && sudo apt update && sudo apt install libboost-all-dev lcov -y
+              if: matrix.os == 'ubuntu-latest'
 
             - name: Checkout Logging submodule
               run: git submodule update --init --recursive
@@ -35,39 +53,9 @@ jobs:
                     exit 1
                 fi
                 
-    build_Ubuntu:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-
-            - name: Install Boost
-              run: sudo apt-get install libboost-all-dev lcov -y
-
-            - name: Checkout Logging submodule
-              uses: srt32/git-actions@v0.0.3
-              with:
-                args: git submodule update --init --recursive
-            
-            - name: Compile
-              run: |
-                mkdir build
-                cd build
-                cmake ..
-                make
-            
-            - name: Run Unit Tests
-              run: |
-                ./tests/bin/Enigma-unit_tests
-                if [ $? -eq 0 ]; then
-                    echo "Unit tests completed successfully"
-                exit 0
-                else
-                    echo "Unit tests failed"
-                    exit 1
-                fi
-
-            - name: Run Coverage
+            - name: Run Coverage (Ubuntu GCC)
               run: |
                 make coverage
                 bash <(curl -s https://codecov.io/bash) -f build/Enigma.info || echo "Codecov did not collect coverage reports"
               continue-on-error: true # Do not want failed coverage to mean failed build!
+              if: matrix.os == 'ubuntu-latest' && matrix.config.compiler == 'gcc'
