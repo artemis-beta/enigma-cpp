@@ -37,6 +37,9 @@ jobs:
               run: git submodule update --init --recursive
             
             - name: Compile
+              env:
+                CC: ${{ matrix.config.compiler }}
+                CXX: ${{ matrix.config.compilerpp }}
               run: |
                 mkdir build
                 cd build
