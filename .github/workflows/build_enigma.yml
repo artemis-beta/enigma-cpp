@@ -3,7 +3,8 @@ name: Enigma
 on: [push]
 
 jobs:
-    build: ${{ matrix.os }} ${{ matrix.config.compiler }}
+    build: 
+        name: ${{ matrix.os }} ${{ matrix.config.compiler }}
         runs-on: ${{ matrix.os }}
         strategy:
           fail-fast: false
