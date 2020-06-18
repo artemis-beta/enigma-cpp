@@ -1,5 +1,6 @@
 # ENIGMA
 ![Enigma](https://github.com/artemis-beta/enigma-cpp/workflows/Enigma/badge.svg?event=push) [![CodeFactor](https://www.codefactor.io/repository/github/artemis-beta/enigma-cpp/badge)](https://www.codefactor.io/repository/github/artemis-beta/enigma-cpp) 
+
 This is a small application written in C++ which simulates both the M3 and M4, 3 and 4 rotor variants of the Enigma machine which was utilised by German forces during WWII to encode information. It is a copy of the Python version found [here](https://github.com/artemis-beta/enigma).
 
 ## Prerequisites
