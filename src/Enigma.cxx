@@ -103,7 +103,7 @@ void _enigma_impl::_set_rotor(const std::string name, const char letter)
     }
 }
 
-const char _enigma_impl::_get_rotor_conv(const std::string name, const char letter)
+char _enigma_impl::_get_rotor_conv(const std::string name, const char letter)
 {
     const char converted_letter = _rotors[name]->get_rotor_conversion(letter);
     _logger.Debug("Rotor %1% conversion: %2% to %3%", name, std::string(1, letter),
@@ -111,7 +111,7 @@ const char _enigma_impl::_get_rotor_conv(const std::string name, const char lett
     return converted_letter;
 }
 
-const char _enigma_impl::_get_rotor_conv_inv(const std::string name, const char letter)
+char _enigma_impl::_get_rotor_conv_inv(const std::string name, const char letter)
 {
     const char converted_letter = _rotors[name]->get_rotor_conversion_inv(letter);
     _logger.Debug("Rotor %1% conversion: %2% to %3%", name, std::string(1, letter),
@@ -119,7 +119,7 @@ const char _enigma_impl::_get_rotor_conv_inv(const std::string name, const char 
     return converted_letter;
 }
 
-const char _enigma_impl::_get_inter_rotor_conv(const std::string name_1,
+char _enigma_impl::_get_inter_rotor_conv(const std::string name_1,
                                          const std::string name_2,
                                          const char letter)
 {
@@ -152,7 +152,7 @@ const char _enigma_impl::_get_inter_rotor_conv(const std::string name_1,
     return output;
 }
 
-const char Enigma::type_letter(const char letter)
+char Enigma::type_letter(const char letter)
 {
     const char l  = std::toupper(letter);
     Logger logger = static_cast<Logger>(_impl->_logger);
@@ -230,14 +230,14 @@ const char Enigma::type_letter(const char letter)
     return cipher_out;
 }
 
-const char _enigma_impl::_get_reflector_conv(const char letter)
+char _enigma_impl::_get_reflector_conv(const char letter)
 {
     const char out = _reflector->reflector_conversion(letter);
     _logger.Debug("Reflector conversion: %1% to %2%", std::string(1, letter), std::string(1, out));
     return out;
 }
 
-const std::string Enigma::type_phrase(const std::string phrase)
+std::string Enigma::type_phrase(const std::string phrase)
 {
     std::string _temp = phrase;
     RotorMap rotors = static_cast<RotorMap>(_impl->_rotors);

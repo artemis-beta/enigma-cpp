@@ -44,10 +44,10 @@ class _enigma_impl
         void _init();
         void _move_rotor(const std::string, const int);
         void _set_rotor(const std::string, const char);
-        const char _get_rotor_conv(const std::string, const char);
-        const char _get_rotor_conv_inv(const std::string, const char);
-        const char _get_inter_rotor_conv(const std::string, const std::string, const char);
-        const char _get_reflector_conv(const char);
+        char _get_rotor_conv(const std::string, const char);
+        char _get_rotor_conv_inv(const std::string, const char);
+        char _get_inter_rotor_conv(const std::string, const std::string, const char);
+        char _get_reflector_conv(const char);
         Logger _logger;
         bool _debug = false;
 };
@@ -61,13 +61,13 @@ class Enigma
             _impl(new _enigma_impl(rotor_list, reflector, enigma_type, debug)) {}
         const int rotor_index(const std::string);
         void ringstellung(const std::string, const int);
-        const char type_letter(const char);
-        const std::string type_phrase(const std::string);
+        char type_letter(const char);
+        std::string type_phrase(const std::string);
         void set_key(const std::string);
         void rewire_plugboard(const char, const char);
         void reset(){_impl->_init();}
-        const std::string getType() const {return _impl->_enigma_type;}
-        const std::vector<std::string> getRotorLabels() const {return static_cast<RotorLabels>(_impl->_rotor_labels);}
+        std::string getType() const {return _impl->_enigma_type;}
+        std::vector<std::string> getRotorLabels() const {return static_cast<RotorLabels>(_impl->_rotor_labels);}
 };
 
 #endif
