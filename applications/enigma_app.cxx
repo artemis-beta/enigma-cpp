@@ -33,9 +33,9 @@ int main(int argc, char** argv)
     }
 
     std::string intro = "===========================================\n\n"
-    "  WELCOME TO THE ENIGMA ENCODER\n"
-    "                  "+eg_version;
-    intro += "\n           Kristian Zarebski\n\n"
+    "  WELCOME TO THE ENIGMA ENCODER\n"+
+    std::string(18-eg_version.size()/2, ' ')+eg_version;
+    intro += "\n        Kristian Zarebski\n\n"
     "===========================================\n"
     "Type 'quit' to exit.\n\n";
 

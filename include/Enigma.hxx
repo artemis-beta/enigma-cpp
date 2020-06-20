@@ -16,10 +16,18 @@
 #include "Reflector.hxx"
 #include "Logger.hxx"
 
+#ifndef VERSION
+#error Macro VERSION must be defined
+#endif
+
+#ifndef BETA
+#error Macro BETA must be defined
+#endif
+
 namespace EnigmaInfo
 {
-    const std::string version = "v1.2.0";
-    const bool isBeta = true;
+    const std::string version = std::string(VERSION);
+    const bool isBeta = static_cast<bool>(BETA);
 };
 
 typedef std::vector<std::string> RotorLabels;
