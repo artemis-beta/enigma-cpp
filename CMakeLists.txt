@@ -6,7 +6,7 @@ set( CMAKE_CXX_STANDARD 17 )
 set( CMAKE_CXX_STANDARD_REQUIRED ON )
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 set( SRCFILES src/Reflector.cxx src/Rotor.cxx src/Enigma.cxx )
-
+set(CMAKE_THREAD_LIBS_INIT "-lpthread")
 option(CODE_COVERAGE "Enable Coverage" OFF)
 
 if(CODE_COVERAGE)

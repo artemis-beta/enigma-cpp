@@ -2,8 +2,21 @@
 
 const int Enigma::rotor_index(const std::string label)
 {
-	RotorLabels::iterator it = std::find(static_cast<RotorLabels>(_impl->_rotor_labels).begin(), static_cast<RotorLabels>(_impl->_rotor_labels).end(), label);
-	return std::distance(static_cast<RotorLabels>(_impl->_rotor_labels).begin(), it);
+	RotorLabels::iterator it = std::find(_impl->_rotor_labels.begin(), _impl->_rotor_labels.end(), label);
+	if(it == _impl->_rotor_labels.end())
+	{
+		 _impl->_logger.Critical("Could not find Rotor, '"+label+"' in rotor list");
+			
+		 std::string rotor_list = " ";
+
+		 for(auto& label : _impl->_rotor_labels)
+	         {
+			 rotor_list += label+" ";
+	         }
+
+		 _impl->_logger.Critical("Rotor List is [%1%]", rotor_list);
+	}
+	return std::distance(_impl->_rotor_labels.begin(), it);
 }
 
 void _enigma_impl::_init()
