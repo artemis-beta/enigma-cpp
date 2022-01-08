@@ -4,11 +4,11 @@
 
 #include "boost/algorithm/string.hpp"
 
-void apply_rsg(const std::vector<int> ringstellung, Enigma* eg)
+void apply_rsg(const std::vector<int> ringstellung, Enigma& eg)
 {
     for(unsigned int i{0}; i < ringstellung.size(); ++i)
     {
-        eg->ringstellung(eg->getRotorLabels()[i], ringstellung[i]);
+        eg.ringstellung(eg.getRotorLabels()[i], ringstellung[i]);
     }
 }
 
@@ -24,7 +24,7 @@ bool is_word(const std::string& s)
 
 int main(int argc, char** argv)
 {
-    Enigma* enigma = new Enigma;
+    
     std::string eg_version = EnigmaInfo::version;
 
     if(EnigmaInfo::isBeta)
@@ -123,7 +123,9 @@ int main(int argc, char** argv)
             rotors.push_back(_temp);
         }
     }
-    enigma = new Enigma(rotors, 'B', (key.size() == 3) ? "M3" : "M4", false);
+
+    auto enigma = std::make_unique<Enigma>(rotors, 'B', (key.size() == 3) ? "M3" : "M4", false);
+
     enigma->set_key(key);
 
     std::vector<int> rsg_settings = {0,0,0,0};
@@ -177,7 +179,7 @@ int main(int argc, char** argv)
             rsg_settings.push_back(_temp);
         }
 
-        apply_rsg(rsg_settings, enigma);
+        apply_rsg(rsg_settings, *enigma);
     }
 
     char input[100] = {0};
@@ -193,7 +195,7 @@ int main(int argc, char** argv)
                 std::cout << "Resetting Machine..." << std::endl;
                 enigma->reset();
                 enigma->set_key(key);
-                apply_rsg(rsg_settings, enigma);
+                apply_rsg(rsg_settings, *enigma);
             }
             else
             {

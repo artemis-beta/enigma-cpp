@@ -13,7 +13,7 @@ class Reflector
     public:
         Reflector(const char name, const std::map<char, char> ref_dict) : 
             _reflector_dict(ref_dict), _name(name) {}
-        char reflector_conversion(const char& letter) const {return _reflector_dict[letter];}
+        char reflector_conversion(const char& letter) const {return _reflector_dict.at(letter);}
 };
 
 class Reflector_B : public Reflector
