@@ -49,9 +49,10 @@ int main(int argc, char** argv)
 
     while(choice != "Y" && choice != "N")
     {
-        std::cout << "Set key? [y/N] ";
+        std::cout << "Set key? [y/n] ";
         std::cin >> choice;
         std::cout << std::endl;
+        
         boost::to_upper(choice);
 
         safety_count++;
@@ -84,11 +85,12 @@ int main(int argc, char** argv)
 
     while(choice != "Y" && choice != "N")
     {
-        std::cout << "Set Rotors? [y/N] ";
+        std::cout << "Set Rotors? [y/n] ";
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cin >> choice;
         std::cout << std::endl;
+        
         boost::to_upper(choice);
 
         safety_count++;
@@ -130,11 +132,12 @@ int main(int argc, char** argv)
 
     while(choice != "Y" && choice != "N")
     {
-        std::cout << "Ringstellung? [y/N] ";
+        std::cout << "Ringstellung? [y/n] ";
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cin >> choice;
         std::cout << std::endl;
+        
         boost::to_upper(choice);
 
         safety_count++;

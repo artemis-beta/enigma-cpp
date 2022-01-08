@@ -1,6 +1,6 @@
 file( GLOB SRC_UNIT ${CMAKE_CURRENT_SOURCE_DIR}/*.cxx )
 
-set( UNIT_TESTS ${ENIGMA}-unit-tests )
+set( UNIT_TESTS ${ENIGMA_LIBRARY}-unit-tests )
 
 add_executable( ${UNIT_TESTS} ${SRC_UNIT} )
 add_compile_options( ${UNIT_TESTS} ${BUILD_TYPE_COMPILE_FLAGS} )
