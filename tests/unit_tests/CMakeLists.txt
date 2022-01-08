@@ -1,20 +1,15 @@
-file(GLOB_RECURSE src_unit "*.cxx")
+file( GLOB SRC_UNIT ${CMAKE_CURRENT_SOURCE_DIR}/*.cxx )
 
-set(unit_tests ${PROJECT_NAME}-unit_tests)
+set( UNIT_TESTS ${ENIGMA}-unit-tests )
 
-add_executable(${unit_tests} ${src_unit})
-add_compile_options(${unit_tests} ${BUILD_TYPE_COMPILE_FLAGS})
+add_executable( ${UNIT_TESTS} ${SRC_UNIT} )
+add_compile_options( ${UNIT_TESTS} ${BUILD_TYPE_COMPILE_FLAGS} )
 
-target_include_directories(${unit_tests} PRIVATE ${GTEST_INCLUDE_DIRS})
-target_include_directories(${unit_tests} PUBLIC ${Boost_INCLUDE_DIRS})
-target_include_directories(${unit_tests} PUBLIC ${CMAKE_SOURCE_DIR}/include)
-target_include_directories(${unit_tests} PUBLIC ${CMAKE_SOURCE_DIR}/logging)
+target_include_directories( ${UNIT_TESTS} PUBLIC ${Boost_INCLUDE_DIRS} )
 
-target_include_directories(${unit_tests} PRIVATE ${GMOCK_INCLUDE_DIRS})
-target_link_libraries(${unit_tests} PUBLIC ${Boost_LIBRARIES})
-target_link_libraries(${unit_tests} PRIVATE Logger)
-target_link_libraries(${unit_tests} PRIVATE Enigma)
-target_link_libraries(${unit_tests} PRIVATE ${PROJECT_LIBS} ${GTEST_LIBRARY} ${GTEST_MAIN_LIBRARY})
+target_link_libraries( ${UNIT_TESTS} PUBLIC gtest_main )
+target_link_libraries( ${UNIT_TESTS} PUBLIC ${Boost_LIBRARIES} )
+target_link_libraries( ${UNIT_TESTS} PUBLIC ${ENIGMA_LIBRARY} )
 
-include(GoogleTest)
-gtest_discover_tests(${unit_tests})
+include( GoogleTest )
+gtest_discover_tests( ${UNIT_TESTS} )

@@ -14,7 +14,7 @@
 #include "Rotor.hxx"
 #include "Plugboard.hxx"
 #include "Reflector.hxx"
-#include "Logger.hxx"
+#include "cpplogger/logger.hxx"
 
 #ifndef VERSION
 #error Macro VERSION must be defined

@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 #include "Enigma.hxx"
-#include "Logger.hxx"
+#include "cpplogger/logger.hxx"
 
 //TODO Use methods with varying parameters
 
