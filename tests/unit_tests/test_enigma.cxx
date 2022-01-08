@@ -167,7 +167,7 @@ TEST(EnigmaTest, TestRingStellungCheck)
     Enigma* machine = new Enigma(rotor_list, reflector_type, "M3", true);
     machine->set_key(key);
 
-    for(int i{0}; i < rotor_list.size(); ++i)
+    for(unsigned int i{0}; i < rotor_list.size(); ++i)
     {
         machine->ringstellung(names[i], ringstellung[i]);
     }
@@ -181,7 +181,7 @@ TEST(EnigmaTest, TestRingStellungCheck)
     machine = new Enigma(rotor_list, reflector_type, "M3", true);
     machine->set_key(key);
 
-    for(int i{0}; i < rotor_list.size(); ++i)
+    for(unsigned int i{0}; i < rotor_list.size(); ++i)
     {
         machine->ringstellung(names[i], ringstellung[i]);
     }

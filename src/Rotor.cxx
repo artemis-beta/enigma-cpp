@@ -1,6 +1,6 @@
 #include "Rotor.hxx"
 
-const int Rotor::alpha_index(const char letter)
+int Rotor::alpha_index(const char letter) const
 {
 	const std::array<const char, 26>::iterator it = std::find(_alpha.begin(), _alpha.end(), letter);
 	return std::distance(_alpha.begin(), it);
@@ -34,13 +34,13 @@ void Rotor::rotate_inner_ring()
 	}
 }
 
-const int Rotor::get_output_terminal(const char letter)
+int Rotor::get_output_terminal(const char letter) const
 {
 	const int i = alpha_index(letter);
-	return _wiring[i];
+	return _wiring.at(i);
 }
 
-const int Rotor::get_input_terminal(const char letter)
+int Rotor::get_input_terminal(const char letter) const
 {
 	const int i = alpha_index(letter);
 	for(unsigned int j{0}; j < _wiring.size(); ++j)
@@ -54,20 +54,20 @@ const int Rotor::get_input_terminal(const char letter)
 	throw std::invalid_argument("Could not find Input terminal for letter '"+std::string(1, letter)+"'");
 }
 
-const char Rotor::get_rotor_conversion(const char letter)
+char Rotor::get_rotor_conversion(const char letter) const
 {
 	const int i = alpha_index(letter);
 
-	return _alpha[_wiring[i]];
+	return _alpha[_wiring.at(i)];
 }
 
-const char Rotor::get_rotor_conversion_inv(const char letter)
+char Rotor::get_rotor_conversion_inv(const char letter) const
 {
 	const int i = alpha_index(letter);
 
 	for(unsigned int j{0}; j < _wiring.size(); ++j)
 	{
-		if(_wiring[j] == i)
+		if(_wiring.at(j) == i)
 		{
 			return _alpha[j];
 		}
@@ -75,6 +75,7 @@ const char Rotor::get_rotor_conversion_inv(const char letter)
 
 	throw std::invalid_argument("Could not find the inverse of character '"+std::string(1, letter)+"'");
 }
+
 extern Rotor* Rotors(const int rotor_type)
 {
     if(rotor_type > 8 || rotor_type < 1)

@@ -12,8 +12,8 @@ class Reflector
         const char _name;
     public:
         Reflector(const char name, const std::map<char, char> ref_dict) : 
-            _name(name), _reflector_dict(ref_dict) {}
-        const char reflector_conversion(const char& letter) {return _reflector_dict[letter];}
+            _reflector_dict(ref_dict), _name(name) {}
+        char reflector_conversion(const char& letter) const {return _reflector_dict[letter];}
 };
 
 class Reflector_B : public Reflector

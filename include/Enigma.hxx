@@ -36,19 +36,23 @@ typedef std::map<std::string, Rotor*> RotorMap;
 class _enigma_impl
 {
     public:
-        _enigma_impl(const std::vector<int> rotor_list, const char reflector, const std::string enigma_type, const bool debug) :
-            _rotor_ids(rotor_list), _reflector_type(reflector), _enigma_type(enigma_type), 
-            _logger(Logger("ENIGMA "+enigma_type)), _debug(debug), _reflector(Reflectors(reflector))
-        {
-            _init();
-        }
         const std::string _enigma_type;
         RotorLabels _rotor_labels;
         const std::vector<int> _rotor_ids;
         RotorMap _rotors;
+        Logger _logger;
         const char _reflector_type;
+        bool _debug = false;
         Reflector* _reflector;
         Plugboard* _plugboard = new Plugboard;
+
+        _enigma_impl(const std::vector<int> rotor_list, const char reflector, const std::string enigma_type, const bool debug) :
+            _enigma_type(enigma_type), _rotor_ids(rotor_list), _logger(Logger("ENIGMA "+enigma_type)),
+            _reflector_type(reflector), _debug(debug), _reflector(Reflectors(reflector))
+        {
+            _init();
+        }
+
         void _init();
         void _move_rotor(const std::string, const int);
         void _set_rotor(const std::string, const char);
@@ -56,8 +60,6 @@ class _enigma_impl
         char _get_rotor_conv_inv(const std::string, const char);
         char _get_inter_rotor_conv(const std::string, const std::string, const char);
         char _get_reflector_conv(const char);
-        Logger _logger;
-        bool _debug = false;
 };
 
 class Enigma
@@ -67,7 +69,7 @@ class Enigma
     public:
         Enigma(const std::vector<int> rotor_list={5,3,1}, const char reflector='B', const std::string enigma_type="M3", const bool debug=false) :
             _impl(new _enigma_impl(rotor_list, reflector, enigma_type, debug)) {}
-        const int rotor_index(const std::string);
+        int rotor_index(const std::string) const;
         void ringstellung(const std::string, const int);
         char type_letter(const char);
         std::string type_phrase(const std::string);

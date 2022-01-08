@@ -1,6 +1,6 @@
 #include "Enigma.hxx"
 
-const int Enigma::rotor_index(const std::string label)
+int Enigma::rotor_index(const std::string label) const
 {
 	RotorLabels::iterator it = std::find(_impl->_rotor_labels.begin(), _impl->_rotor_labels.end(), label);
 	if(it == _impl->_rotor_labels.end())
@@ -83,7 +83,7 @@ void _enigma_impl::_init()
 void _enigma_impl::_move_rotor(const std::string rotor, const int amount)
 {
     _logger.Debug("Rotating rotor %1% by %2%", rotor, std::to_string(amount));
-    for(unsigned int i{0}; i < amount; ++i)
+    for(int i{0}; i < amount; ++i)
     {
         _rotors[rotor]->rotate_rotor();
     }
@@ -93,7 +93,7 @@ void Enigma::ringstellung(const std::string name, const int amount)
 {
     RotorMap rotors = static_cast<RotorMap>(_impl->_rotors);
     Logger logger = static_cast<Logger>(_impl->_logger);
-    for(unsigned int i{0}; i < amount; ++i)
+    for(int i{0}; i < amount; ++i)
     {
         char letter = 'A';
         logger.Debug("Ringstellung: Conversion for rotor %1% was %2% to %3%", 
@@ -227,7 +227,7 @@ char Enigma::type_letter(const char letter)
     for(auto key : rotor_labels)
     {
         cipher = _impl->_get_rotor_conv_inv(key, cipher);
-        int adjacent_rotor_index = rotor_index(key)+1;
+        size_t adjacent_rotor_index = rotor_index(key)+1;
 
         if(adjacent_rotor_index >= rotor_labels.size()) break;
 
@@ -253,10 +253,15 @@ char _enigma_impl::_get_reflector_conv(const char letter)
 std::string Enigma::type_phrase(const std::string phrase)
 {
     std::string _temp = phrase;
+    
     RotorMap rotors = static_cast<RotorMap>(_impl->_rotors);
+    
     const RotorLabels rotor_labels = static_cast<RotorLabels>(_impl->_rotor_labels);
+    
     _temp.erase(std::remove_if(_temp.begin(), _temp.end(), ::isspace), _temp.end());
-    const int remainder = (_temp.size() % 5 != 0) ? 5 - _temp.size() % 5 : 0;
+    
+    const size_t remainder = (_temp.size() % 5 != 0) ? 5 - _temp.size() % 5 : 0;
+    
     for(unsigned int i{0}; i < remainder; ++i)
     {
         _temp += rotors[rotor_labels[0]]->get_letters_dict()[rand() % 26];

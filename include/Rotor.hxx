@@ -26,14 +26,14 @@ class Rotor
             _notches(notches), _name(name), _wiring(wiring) {}
         void rotate_rotor(Rotor* other=nullptr);
         void rotate_inner_ring();
-        const int get_output_terminal(const char letter);
-        const int get_input_terminal(const char letter);
-        const char get_rotor_conversion(const char letter);
-        const char get_rotor_conversion_inv(const char letter);
-		const char get_face_letter(){return _face;}
-		const std::vector<char> get_notches(){return _notches;}
-		const std::array<const char, 26> get_letters_dict(){return _alpha;}
-		const int alpha_index(const char letter);
+        int get_output_terminal(const char letter) const;
+        int get_input_terminal(const char letter) const;
+        char get_rotor_conversion(const char letter) const;
+        char get_rotor_conversion_inv(const char letter) const;
+		char get_face_letter() const {return _face;}
+		std::vector<char> get_notches() const {return _notches;}
+		std::array<const char, 26> get_letters_dict() const {return _alpha;}
+		int alpha_index(const char letter) const;
 };
 
 class Rotor_1 : public Rotor
@@ -157,6 +157,6 @@ class Rotor_8 : public Rotor
 				{24, 6}, {25, 21}}) {}
 };
 
-extern Rotor* Rotors(const int rotor_type);
+extern Rotor* Rotors(int rotor_type);
 
 #endif

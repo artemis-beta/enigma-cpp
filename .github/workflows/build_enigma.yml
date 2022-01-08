@@ -48,7 +48,7 @@ jobs:
             
             - name: Run Unit Tests
               run: |
-                ./build/tests/unit_tests/Enigma-unit-tests
+                ./build/tests/unit_tests/enigma-unit-tests
                 if [ $? -eq 0 ]; then
                     echo "Unit tests completed successfully"
                 exit 0
