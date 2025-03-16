@@ -9,12 +9,10 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "boost/algorithm/string.hpp"
-
 #include "Rotor.hxx"
 #include "Plugboard.hxx"
 #include "Reflector.hxx"
-#include "cpplogger/logger.hxx"
+#include "spdlog/spdlog.h"
 
 #ifndef VERSION
 #error Macro VERSION must be defined
@@ -40,15 +38,14 @@ class _enigma_impl
         RotorLabels _rotor_labels;
         const std::vector<int> _rotor_ids;
         RotorMap _rotors;
-        Logger _logger;
         const char _reflector_type;
         bool _debug = false;
         Reflector* _reflector;
         Plugboard* _plugboard = new Plugboard;
 
         _enigma_impl(const std::vector<int> rotor_list, const char reflector, const std::string enigma_type, const bool debug) :
-            _enigma_type(enigma_type), _rotor_ids(rotor_list), _logger(Logger("ENIGMA "+enigma_type)),
-            _reflector_type(reflector), _debug(debug), _reflector(Reflectors(reflector))
+            _enigma_type(enigma_type), _rotor_ids(rotor_list), _reflector_type(reflector),
+            _debug(debug), _reflector(Reflectors(reflector))
         {
             _init();
         }

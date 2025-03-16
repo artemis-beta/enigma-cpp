@@ -1,4 +1,3 @@
-[submodule "logging"]
-	path = logging
-	url = https://github.com/artemis-beta/cpp-logger.git
-	branch = master
+[submodule "external/spdlog"]
+	path = external/spdlog
+	url = https://github.com/gabime/spdlog.git

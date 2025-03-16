@@ -1,8 +1,8 @@
 #include "Enigma.hxx"
 
 #include <iostream>
-
-#include "boost/algorithm/string.hpp"
+#include <algorithm>
+#include <cctype>
 
 void apply_rsg(const std::vector<int> ringstellung, Enigma& eg)
 {
@@ -52,8 +52,8 @@ int main(int argc, char** argv)
         std::cout << "Set key? [y/n] ";
         std::cin >> choice;
         std::cout << std::endl;
-        
-        boost::to_upper(choice);
+
+        std::transform(choice.begin(), choice.end(), choice.begin(), [](const char c){ return std::toupper(c);});
 
         safety_count++;
         if(safety_count > 10)
@@ -91,7 +91,7 @@ int main(int argc, char** argv)
         std::cin >> choice;
         std::cout << std::endl;
         
-        boost::to_upper(choice);
+        std::transform(choice.begin(), choice.end(), choice.begin(), [](const char c){ return std::toupper(c);});
 
         safety_count++;
         if(safety_count > 10)
@@ -140,7 +140,7 @@ int main(int argc, char** argv)
         std::cin >> choice;
         std::cout << std::endl;
         
-        boost::to_upper(choice);
+        std::transform(choice.begin(), choice.end(), choice.begin(), [](const char c){ return std::toupper(c);});
 
         safety_count++;
         if(safety_count > 10)

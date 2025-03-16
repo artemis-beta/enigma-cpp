@@ -1,27 +1,26 @@
 cmake_minimum_required( VERSION 3.20 )
 
 set( ENIGMA EnigmaCLI )
-set( ENIGMA_VERSION 1.2.2 )
+set( ENIGMA_VERSION 2.0.0 )
 set( ENIGMA_LIBRARY enigma )
-set( CPPLOGGER cpplogger )
 
 project( ${ENIGMA} VERSION ${ENIGMA_VERSION} LANGUAGES CXX )
 
 set( BETA 0 )
 
-set( CMAKE_CXX_STANDARD 17 )
+set( CMAKE_CXX_STANDARD 20 )
 set( CMAKE_CXX_STANDARD_REQUIRED ON )
 file( GLOB SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cxx )
 set( CMAKE_THREAD_LIBS_INIT "-lpthread" )
-option( BUILD_TESTS "Build Tests" OFF )
+option( ENIGMA_BUILD_TESTS "Build Tests" OFF )
 option( CODE_COVERAGE "Enable Coverage" OFF )
 
-if( BUILD_TESTS )
+if( ENIGMA_BUILD_TESTS )
     message( STATUS "Will build unit tests" )
-endif( BUILD_TESTS )
+endif( ENIGMA_BUILD_TESTS )
 
 if( CODE_COVERAGE )
-    set( BUILD_TESTS ON )
+    set( ENIGMA_BUILD_TESTS ON )
     message( STATUS "Including Code Coverage" )
     set( COVERAGE_COMPILER_FLAGS "-g -fprofile-arcs -ftest-coverage" )
     set( CMAKE_CXX_FLAGS "-Wall -Wextra ${COVERAGE_COMPILER_FLAGS} ${CMAKE_CXX_FLAGS}" )
@@ -29,15 +28,14 @@ endif()
 
 set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVERSION=\\\"${PROJECT_VERSION}\\\" -DBETA=${BETA} " )
 
-find_package( Boost REQUIRED )
+set( SPDLOG_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/spdlog/include )
 
-add_subdirectory( logging )
+add_subdirectory( external/spdlog )
 
 add_library( ${ENIGMA_LIBRARY} ${SRC_FILES} )
-target_link_libraries( ${ENIGMA_LIBRARY} PUBLIC ${Boost_LIBRARIES} )
-target_link_libraries( ${ENIGMA_LIBRARY} PUBLIC ${CPPLOGGER} )
-target_include_directories( ${ENIGMA_LIBRARY} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
-                            ${ENIGMA_LIBRARY} PUBLIC ${Boost_INCLUDE_DIRS} )
+target_link_libraries( ${ENIGMA_LIBRARY} PUBLIC ${SPDLOG} )
+target_include_directories( ${ENIGMA_LIBRARY} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include )
+target_include_directories( ${ENIGMA_LIBRARY} PUBLIC ${SPDLOG_INCLUDE_DIR} )
 
 # Expose headers for Enigma library to other targets
 target_include_directories( ${ENIGMA_LIBRARY} PUBLIC

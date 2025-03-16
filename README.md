@@ -3,13 +3,9 @@
 
 This is a small application written in C++ which simulates both the M3 and M4, 3 and 4 rotor variants of the Enigma machine which was utilised by German forces during WWII to encode information. It is a copy of the Python version found [here](https://github.com/artemis-beta/enigma).
 
-## Prerequisites
-
-Enigma uses the [Boost C++ library](https://www.boost.org/users/history/version_1_72_0.html) which should be installed first. It also makes use of a custom logging class that I have written and is automatically fetched and installed.
-
 ## App
 
-Included within this package is a demo application which provides a terminal based user interface. The application is built with `CMake>=3.10`:
+Included within this package is a demo application which provides a terminal based user interface. The application is built with `CMake>=3.20`:
 
 ```
 mkdir build
