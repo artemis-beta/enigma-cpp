@@ -124,7 +124,7 @@ int main(int argc, char** argv)
         }
     }
 
-    auto enigma = std::make_unique<Enigma>(rotors, 'B', (key.size() == 3) ? "M3" : "M4", false);
+    auto enigma = std::make_unique<Enigma>(rotors, 'B', (key.size() == 3) ? EnigmaType::M3 : EnigmaType::M4, false);
 
     enigma->set_key(key);
 

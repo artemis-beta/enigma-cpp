@@ -5,6 +5,7 @@
 #include <vector>
 #include <algorithm>
 #include <map>
+#include <ranges>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -31,10 +32,16 @@ namespace EnigmaInfo
 typedef std::vector<std::string> RotorLabels;
 typedef std::map<std::string, Rotor*> RotorMap;
 
+enum class EnigmaType
+{
+    M3,
+    M4
+};
+
 class _enigma_impl
 {
     public:
-        const std::string _enigma_type;
+        const EnigmaType _enigma_type;
         RotorLabels _rotor_labels;
         const std::vector<int> _rotor_ids;
         RotorMap _rotors;
@@ -43,7 +50,7 @@ class _enigma_impl
         Reflector* _reflector;
         Plugboard* _plugboard = new Plugboard;
 
-        _enigma_impl(const std::vector<int> rotor_list, const char reflector, const std::string enigma_type, const bool debug) :
+        _enigma_impl(const std::vector<int> rotor_list, const char reflector, const EnigmaType enigma_type, const bool debug) :
             _enigma_type(enigma_type), _rotor_ids(rotor_list), _reflector_type(reflector),
             _debug(debug), _reflector(Reflectors(reflector))
         {
@@ -64,16 +71,16 @@ class Enigma
     private:
         _enigma_impl* _impl;
     public:
-        Enigma(const std::vector<int> rotor_list={5,3,1}, const char reflector='B', const std::string enigma_type="M3", const bool debug=false) :
+        Enigma(const std::vector<int> rotor_list={5,3,1}, const char reflector='B', const EnigmaType enigma_type=EnigmaType::M3, const bool debug=false) :
             _impl(new _enigma_impl(rotor_list, reflector, enigma_type, debug)) {}
-        int rotor_index(const std::string) const;
+        int rotor_index(const std::string&) const;
         void ringstellung(const std::string, const int);
         char type_letter(const char);
         std::string type_phrase(const std::string);
         void set_key(const std::string);
         void rewire_plugboard(const char, const char);
         void reset(){_impl->_init();}
-        std::string getType() const {return _impl->_enigma_type;}
+        EnigmaType getType() const {return _impl->_enigma_type;}
         std::vector<std::string> getRotorLabels() const {return static_cast<RotorLabels>(_impl->_rotor_labels);}
 };
 

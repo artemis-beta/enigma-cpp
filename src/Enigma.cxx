@@ -1,7 +1,6 @@
 #include "Enigma.hxx"
-#include <algorithm>
 
-int Enigma::rotor_index(const std::string label) const
+int Enigma::rotor_index(const std::string& label) const
 {
 	RotorLabels::iterator it = std::find(_impl->_rotor_labels.begin(), _impl->_rotor_labels.end(), label);
 	if(it == _impl->_rotor_labels.end())
@@ -24,7 +23,7 @@ void _enigma_impl::_init()
 {
     srand(time(NULL));
 
-    if(_enigma_type == "M3")
+    if(_enigma_type == EnigmaType::M3)
     {
         _rotor_labels = {"left", "middle", "right"};
         if(_rotor_ids.size() != 3)
@@ -48,7 +47,7 @@ void _enigma_impl::_init()
         _rotors[_rotor_labels[2]] = Rotors(_rotor_ids[2]);
     }
 
-    else if(_enigma_type == "M4")
+    else if(_enigma_type == EnigmaType::M4)
     {
         if(_rotor_ids.size() != 4)
         {
@@ -71,17 +70,11 @@ void _enigma_impl::_init()
         _rotors[_rotor_labels[2]] = Rotors(_rotor_ids[2]);
         _rotors[_rotor_labels[3]] = Rotors(_rotor_ids[3]);
     }
-
-    else
-    {
-        spdlog::error("Unrecognised Enigma type '%1%'", _enigma_type);
-        exit(EXIT_FAILURE);
-    }
 }
 
 void _enigma_impl::_move_rotor(const std::string rotor, const int amount)
 {
-    spdlog::debug("Rotating rotor %1% by %2%", rotor, std::to_string(amount));
+    spdlog::debug("Rotating rotor {0} by {1}", rotor, std::to_string(amount));
     for(int i{0}; i < amount; ++i)
     {
         _rotors[rotor]->rotate_rotor();
@@ -94,11 +87,11 @@ void Enigma::ringstellung(const std::string name, const int amount)
     for(int i{0}; i < amount; ++i)
     {
         char letter = 'A';
-        spdlog::debug("Ringstellung: Conversion for rotor %1% was %2% to %3%", 
+        spdlog::debug("Ringstellung: Conversion for rotor {0} was {1} to {2}", 
                     name, std::string(1, letter), 
                     std::string(1, rotors[name]->get_rotor_conversion(letter)));
         rotors[name]->rotate_inner_ring();
-        spdlog::debug("Ringstellung: Conversion for rotor %1% now %2% to %3%", 
+        spdlog::debug("Ringstellung: Conversion for rotor {0} now {1} to {2}", 
                     name, std::string(1, letter), 
                     std::string(1, rotors[name]->get_rotor_conversion(letter)));
     }
@@ -106,7 +99,7 @@ void Enigma::ringstellung(const std::string name, const int amount)
 
 void _enigma_impl::_set_rotor(const std::string name, const char letter)
 {
-    spdlog::debug("Setting rotor %1% to %2%", name, std::string(1, letter));
+    spdlog::debug("Setting rotor {0} to {1}", name, std::string(1, letter));
     
     while(_rotors[name]->get_face_letter() != letter)
     {
@@ -117,7 +110,7 @@ void _enigma_impl::_set_rotor(const std::string name, const char letter)
 char _enigma_impl::_get_rotor_conv(const std::string name, const char letter)
 {
     const char converted_letter = _rotors[name]->get_rotor_conversion(letter);
-    spdlog::debug("Rotor %1% conversion: %2% to %3%", name, std::string(1, letter),
+    spdlog::debug("Rotor {0} conversion: {1} to {2}", name, std::string(1, letter),
                     std::string(1, converted_letter));
     return converted_letter;
 }
@@ -125,7 +118,7 @@ char _enigma_impl::_get_rotor_conv(const std::string name, const char letter)
 char _enigma_impl::_get_rotor_conv_inv(const std::string name, const char letter)
 {
     const char converted_letter = _rotors[name]->get_rotor_conversion_inv(letter);
-    spdlog::debug("Rotor %1% conversion: %2% to %3%", name, std::string(1, letter),
+    spdlog::debug("Rotor {0} conversion: {1} to {2}", name, std::string(1, letter),
                     std::string(1, converted_letter));
     return converted_letter;
 }
@@ -156,7 +149,7 @@ char _enigma_impl::_get_inter_rotor_conv(const std::string name_1,
     
     const char output = _rotors[name_2]->get_letters_dict()[n];
 
-    spdlog::debug("Rotor %1% rotor to %2% rotor conversion: %3% to %4%",
+    spdlog::debug("Rotor {0} rotor to {1} rotor conversion: {2} to {3}",
                     name_1, name_2, std::string(1, letter),
                     std::string(1, output));
 
@@ -171,7 +164,7 @@ char Enigma::type_letter(const char letter)
     spdlog::debug("-----------------------");
     Plugboard* plug_board = static_cast<Plugboard*>(_impl->_plugboard);
     char cipher = plug_board->plugboard_conversion(l);
-    spdlog::debug("Plugboard conversion: %1% to %2%", std::string(1, l), std::string(1, cipher));
+    spdlog::debug("Plugboard conversion: {0} to {1}", std::string(1, l), std::string(1, cipher));
     // Move the rightmost rotor
     
     _impl->_move_rotor(rotor_labels[rotor_labels.size()-1], 1);
@@ -191,11 +184,9 @@ char Enigma::type_letter(const char letter)
     std::reverse(reversed_1.begin(), reversed_1.end());
     
     std::reverse(reversed_2.begin(), reversed_2.end());
-    
-    for(unsigned int i{0}; i < reversed_1.size(); ++i)
+
+    for(auto [rev_1_element, rev_2_element] : std::views::zip(reversed_1, reversed_2))
     {
-        const std::string rev_1_element = reversed_1[i];
-        const std::string rev_2_element = reversed_2[i];
         for(auto notch : rotors[rev_1_element]->get_notches())
         {
             if(rotors[rev_1_element]->get_face_letter() == notch)
@@ -234,7 +225,7 @@ char Enigma::type_letter(const char letter)
     }
 
     const char cipher_out = plug_board->plugboard_conversion_inv(cipher);
-    spdlog::debug("Plugboard conversion: %1% to %2%", std::string(1, cipher), std::string(1, cipher_out));
+    spdlog::debug("Plugboard conversion: {0} to {1}", std::string(1, cipher), std::string(1, cipher_out));
     spdlog::debug("-----------------------");
 
     return cipher_out;
@@ -243,7 +234,7 @@ char Enigma::type_letter(const char letter)
 char _enigma_impl::_get_reflector_conv(const char letter)
 {
     const char out = _reflector->reflector_conversion(letter);
-    spdlog::debug("Reflector conversion: %1% to %2%", std::string(1, letter), std::string(1, out));
+    spdlog::debug("Reflector conversion: {0} to {1}", std::string(1, letter), std::string(1, out));
     return out;
 }
 
