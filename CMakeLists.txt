@@ -8,7 +8,7 @@ project( ${ENIGMA} VERSION ${ENIGMA_VERSION} LANGUAGES CXX )
 
 set( BETA 0 )
 
-set( CMAKE_CXX_STANDARD 20 )
+set( CMAKE_CXX_STANDARD 23 )
 set( CMAKE_CXX_STANDARD_REQUIRED ON )
 file( GLOB SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cxx )
 set( CMAKE_THREAD_LIBS_INIT "-lpthread" )
@@ -43,7 +43,9 @@ target_include_directories( ${ENIGMA_LIBRARY} PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 
-add_subdirectory( tests )
+if( ENIGMA_BUILD_TESTS)
+    add_subdirectory( tests )
+endif()
 add_subdirectory( applications )
 
 if( CODE_COVERAGE )
